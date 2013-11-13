@@ -23,6 +23,8 @@
 #include <readline/history.h>
 #include "parse.h"
 
+#include "helper.h"
+
 /*
  * Function declarations
  */
@@ -44,6 +46,8 @@ int main(void)
 {
   Command cmd;
   int n;
+
+  readPathEnv();
 
   while (!done) {
 
