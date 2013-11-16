@@ -47,8 +47,6 @@ int main(void)
   Command cmd;
   int n;
 
-  readPathEnv();
-
   while (!done) {
 
     char *line;
@@ -70,7 +68,8 @@ int main(void)
         add_history(line);
         /* execute it */
         n = parse(line, &cmd);
-        PrintCommand(n, &cmd);
+        //PrintCommand(n, &cmd);
+        execPgm(&cmd);
       }
     }
     
@@ -115,7 +114,7 @@ PrintPgm (Pgm *p)
     /* The list is in reversed order so print
      * it reversed to get right
      */
-    PrintPgm(p->next);
+    //PrintPgm(p->next);
     printf("    [");
     while (*pl) {
       printf("%s ", *pl++);
