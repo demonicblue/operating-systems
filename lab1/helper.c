@@ -41,11 +41,6 @@ void execPgm(Command *cmd) {
     }
 	pid_t child_pid;
 
-	if(cmd->pgm->next != NULL)
-	{
-		execRecursive(cmd->pgm, -1, -1);
-		return;
-	}
 
 	child_pid = fork();
 	if( child_pid == 0 )
@@ -71,10 +66,17 @@ void execPgm(Command *cmd) {
 			close(output_file); //Close file descriptor.
 		}
 
+		if(cmd->pgm->next != NULL)
+		{
+			execRecursive(cmd->pgm, -1, -1);
+			exit(0);
+		}
+
 		//Start the binaries in the child.
 		int isError = execvp(*cmd->pgm->pgmlist, cmd->pgm->pgmlist);
 		if( isError < 0 ) {
 			printf("ERROR: %s\n", strerror(errno));
+			exit(0);
 		}
 	} if(cmd->bakground) {
 		//Take care of the child when it terminates.
@@ -102,7 +104,10 @@ int execRecursive(Pgm *pgm, int pipe_in, int pipe_out) // out=-1 for first run
 			close(pipe_in);
 			close(pipe_out);
 
-			execvp(*pgm->pgmlist, pgm->pgmlist);
+			if(execvp(*pgm->pgmlist, pgm->pgmlist) < 0){
+				printf("ERROR: %s\n", strerror(errno));
+				exit(0);
+			}
 			// Implement error checking
 		} else {
 			wait(NULL);
@@ -130,7 +135,10 @@ int execRecursive(Pgm *pgm, int pipe_in, int pipe_out) // out=-1 for first run
 			close(pipes[PIPE_OUT]);
 			close(pipes[PIPE_IN]);
 
-			execvp(*pgm->pgmlist, pgm->pgmlist);
+			if(execvp(*pgm->pgmlist, pgm->pgmlist) < 0){
+				printf("ERROR: %s\n", strerror(errno));
+				exit(0);
+			}
 			// Implement error checking
 		} else {
 			// Close pipes in parent
@@ -156,7 +164,11 @@ int execRecursive(Pgm *pgm, int pipe_in, int pipe_out) // out=-1 for first run
 			close(pipes[PIPE_IN]);
 
 
-			execvp(*pgm->pgmlist, pgm->pgmlist);
+			if(execvp(*pgm->pgmlist, pgm->pgmlist) < 0){
+				printf("ERROR: %s\n", strerror(errno));
+				exit(0);
+			}
+
 		} else {
 			close(pipes[PIPE_OUT]);
 			close(pipes[PIPE_IN]);
