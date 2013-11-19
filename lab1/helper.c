@@ -29,6 +29,7 @@ void readPathEnv() {
 }*/
 
 void execPgm(Command *cmd) {
+
 	if(strcmp(cmd->pgm->pgmlist[0], "exit") == 0){
     	printf("Exiting bash..\n");
         exit(0);
@@ -41,10 +42,13 @@ void execPgm(Command *cmd) {
     }
 	pid_t child_pid;
 
-
 	child_pid = fork();
 	if( child_pid == 0 )
 	{
+		if(cmd->bakground) {
+		//Take care of the child when it terminates.
+		signal(SIGINT, SIG_IGN);
+		}
 		//Replace stdin?
 		if(cmd->rstdin != NULL){
 			int input_file = 0;
@@ -78,13 +82,12 @@ void execPgm(Command *cmd) {
 			printf("ERROR: %s\n", strerror(errno));
 			exit(0);
 		}
-	} if(cmd->bakground) {
-		//Take care of the child when it terminates.
+	} 
+	if(cmd->bakground){
 		signal(SIGCHLD, SIG_IGN);
 		return;
-		//printf("%s\n", "done");
-	} 
-	wait(NULL);
+	}
+	waitpid(child_pid, NULL, 0);
 }
 
 int execRecursive(Pgm *pgm, int pipe_in, int pipe_out) // out=-1 for first run
