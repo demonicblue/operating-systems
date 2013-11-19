@@ -2,6 +2,10 @@
 #include "parse.h"
 #include "helper.h"
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 /*
 void readPathEnv() {
 	char *dirs = getenv("PATH");
@@ -47,8 +51,21 @@ void execPgm(Command *cmd) {
 	child_pid = fork();
 	if( child_pid == 0 )
 	{
-		int isError = execvp(*cmd->pgm->pgmlist, cmd->pgm->pgmlist);
+		//Replace stdin?
+		if(cmd->rstdin != NULL){
+			int file = open(cmd->rstdin, O_RDONLY | O_CREAT, 00700); //Open input file or create it if it doesn't exist.
+			dup2(file, fileno(stdin)); //Close stdin and use file instead.
+			close(file); //Close file descriptor.
+		}
+		//Replace stdout? 	
+		else if(cmd->rstdout != NULL){
+			int file = open(cmd->rstdout, O_WRONLY | O_CREAT, 00700); //Open output file or create it if it doesn't exist.
+			dup2(file, fileno(stdout)); //Close stdout and use file instead.
+			close(file); //Close file descriptor.
+		}
 
+		//Start the binaries in the child.
+		int isError = execvp(*cmd->pgm->pgmlist, cmd->pgm->pgmlist);
 		if( isError < 0 ) {
 			printf("ERROR: %s\n", strerror(errno));
 		}
@@ -57,7 +74,7 @@ void execPgm(Command *cmd) {
 		signal(SIGCHLD, SIG_IGN);
 		return;
 		//printf("%s\n", "done");
-	}
+	} 
 	wait(NULL);
 }
 
