@@ -28,7 +28,7 @@
 /*
  * Function declarations
  */
-
+void interrupt_handler();
 void PrintCommand(int, Command *);
 void PrintPgm(Pgm *);
 void stripwhite(char *);
@@ -48,7 +48,7 @@ int main(void)
   int n;
 
   while (!done) {
-
+    signal(SIGINT, interrupt_handler);
     char *line;
     line = readline("> ");
 
@@ -69,6 +69,10 @@ int main(void)
         /* execute it */
         n = parse(line, &cmd);
         //PrintCommand(n, &cmd);
+        if(strcmp(cmd.pgm->pgmlist[0], "exit") == 0){
+          printf("Exiting bash..\n");
+          exit(0);
+        }
         execPgm(&cmd);
       }
     }
@@ -78,6 +82,11 @@ int main(void)
     }
   }
   return 0;
+}
+
+void
+interrupt_handler(){
+  printf("\nInterrupt\n");
 }
 
 /*
