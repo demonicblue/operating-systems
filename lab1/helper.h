@@ -14,5 +14,5 @@
 
 void readPathEnv();
 void execPgm(Command *cmd);
-void execRecursive(Pgm *pgm, int out);
+int execRecursive(Pgm *pgm, int pipes_in, int pipes_out);
 void execChain(Command *cmd);

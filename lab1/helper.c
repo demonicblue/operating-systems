@@ -39,9 +39,8 @@ void execPgm(Command *cmd) {
 
 	if(cmd->pgm->next != NULL)
 	{
-		//printf("%s\n", "Executing pipes commands");
-		execRecursive(cmd->pgm, -1);
-		wait(NULL);
+		execRecursive(cmd->pgm, -1, -1);
+		return;
 	}
 
 	child_pid = fork();
@@ -61,22 +60,28 @@ void execPgm(Command *cmd) {
 	wait(NULL);
 }
 
-void execRecursive(Pgm *pgm, int pipe_in) // out=-1 for first run
+int execRecursive(Pgm *pgm, int pipe_in, int pipe_out) // out=-1 for first run
 {
 	int pipes[2];
 
 	if(pgm->next == NULL) 	// We're the last one. Keep stdin.
 	{
-		printf("Last: %s\n", *pgm->pgmlist);
-		if(fork() == 0)
+		int child_pid = fork();
+		if(child_pid == 0)
 		{
-			dup2(pipe_in, fileno(stdout)); // Replace stdout
+			/*dup2(pipe_in, fileno(stdout)); // Replace stdout
+			close(pipe_in);*/
+
+			close(fileno(stdout));
+			dup(pipe_in);
 			close(pipe_in);
+			close(pipe_out);
 
 			execvp(*pgm->pgmlist, pgm->pgmlist);
 			// Implement error checking
 		} else {
-			return; // Parent will return; no more recursive calls
+			wait(NULL);
+			return child_pid; // Parent will return; no more recursive calls
 		}
 	}
 	else if(pipe_in == -1) 	// We're the first one. Keep stdout
@@ -84,15 +89,19 @@ void execRecursive(Pgm *pgm, int pipe_in) // out=-1 for first run
 		//setup pipes
 		pipe(pipes);
 
-		printf("First: %s\n", *pgm->pgmlist);
-		printf("stdin:%d, PIPE_IN:%d\n", fileno(stdin), pipes[PIPE_IN]);
+		execRecursive(pgm->next, pipes[PIPE_IN], pipes[PIPE_OUT]);
 
-		execRecursive(pgm->next, pipes[PIPE_IN]);
+		int child_pid = fork();
 
-		if(fork() == 0)
+		if(child_pid == 0)
 		{
-			dup2(pipes[PIPE_OUT], fileno(stdin));
+			/*dup2(pipes[PIPE_OUT], fileno(stdin));
 
+			close(pipes[PIPE_OUT]);
+			close(pipes[PIPE_IN]);*/
+
+			close(fileno(stdin));
+			dup(pipes[PIPE_OUT]);
 			close(pipes[PIPE_OUT]);
 			close(pipes[PIPE_IN]);
 
@@ -102,8 +111,8 @@ void execRecursive(Pgm *pgm, int pipe_in) // out=-1 for first run
 			// Close pipes in parent
 			close(pipes[PIPE_OUT]);
 			close(pipes[PIPE_IN]);
-
-			return;
+			wait(NULL);
+			return child_pid;
 		}
 
 
@@ -111,9 +120,7 @@ void execRecursive(Pgm *pgm, int pipe_in) // out=-1 for first run
 		//TODO: Implement
 		pipe(pipes);
 
-		printf("Middle: %s\n", *pgm->pgmlist);
-
-		execRecursive(pgm->next, pipes[PIPE_IN]);
+		execRecursive(pgm->next, pipes[PIPE_IN], pipes[PIPE_OUT]);
 
 		if(fork() == 0)
 		{
@@ -123,10 +130,12 @@ void execRecursive(Pgm *pgm, int pipe_in) // out=-1 for first run
 			close(pipes[PIPE_OUT]);
 			close(pipes[PIPE_IN]);
 
+
 			execvp(*pgm->pgmlist, pgm->pgmlist);
 		} else {
-			close(PIPE_OUT);
-			close(PIPE_IN);
+			close(pipes[PIPE_OUT]);
+			close(pipes[PIPE_IN]);
+			wait(NULL);
 		}
 	}
 }
