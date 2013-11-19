@@ -42,11 +42,13 @@ void execPgm(Command *cmd) {
 		if( isError < 0 ) {
 			printf("ERROR: %s\n", strerror(errno));
 		}
-	} else if(!cmd->bakground) {
-		wait(NULL); // Wait for child
-		
+	} if(cmd->bakground) {
+		//Take care of the child when it terminates.
+		signal(SIGCHLD, SIG_IGN);
+		return;
 		//printf("%s\n", "done");
 	}
+	wait(NULL);
 }
 
 void execRecursive(Pgm *pgm, int out) // out=-1 for first run
