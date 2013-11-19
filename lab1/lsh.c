@@ -50,7 +50,9 @@ int main(void)
   while (!done) {
     signal(SIGINT, interrupt_handler);
     char *line;
-    line = readline("> ");
+    char buf[500];
+    getcwd(buf, sizeof(buf));
+    line = readline(strcat(buf,"> "));
 
     if (!line) {
       /* Encountered EOF at top level */
@@ -69,10 +71,6 @@ int main(void)
         /* execute it */
         n = parse(line, &cmd);
         //PrintCommand(n, &cmd);
-        if(strcmp(cmd.pgm->pgmlist[0], "exit") == 0){
-          printf("Exiting bash..\n");
-          exit(0);
-        }
         execPgm(&cmd);
       }
     }
