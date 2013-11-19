@@ -9,8 +9,8 @@
 
 //#include "parse.h"
 
-#define PIPE_IN		0
-#define PIPE_OUT	1
+#define PIPE_IN		1
+#define PIPE_OUT	0
 
 void readPathEnv();
 void execPgm(Command *cmd);
