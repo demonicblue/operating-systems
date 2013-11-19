@@ -25,6 +25,16 @@ void readPathEnv() {
 }*/
 
 void execPgm(Command *cmd) {
+	if(strcmp(cmd->pgm->pgmlist[0], "exit") == 0){
+    	printf("Exiting bash..\n");
+        exit(0);
+    }
+    else if(strcmp(cmd->pgm->pgmlist[0], "cd") == 0){
+        if(chdir(cmd->pgm->pgmlist[1]) < 0){
+        	printf("ERROR: %s\n", strerror(errno));
+        }
+        return;
+    }
 	pid_t child_pid;
 
 	if(cmd->pgm->next != NULL)
