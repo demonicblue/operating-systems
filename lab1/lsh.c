@@ -48,9 +48,13 @@ int main(void)
   int n;
 
   while (!done) {
+    //Redirect Ctrl-C to interrupt handler
     signal(SIGINT, interrupt_handler);
+    //Let the OS clean up the zombie children.
+    signal(SIGCHLD, SIG_IGN);
     char *line;
     char buf[500];
+    //Get current work directory for the prompt.
     getcwd(buf, sizeof(buf));
     line = readline(strcat(buf,"> "));
 

@@ -6,34 +6,14 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-/*
-void readPathEnv() {
-	char *dirs = getenv("PATH");
-	char str[] = "lol:foo:bar";
-
-	char * pch;
-
-	char buffer[256];
-	sprintf(buffer, "%s", pch);
-
-	pch = strtok(buffer, ":");
-
-	while(pch != NULL)
-	{
-		printf("%s\n", pch);
-		pch = strtok(NULL, ":");
-	}
-
-	//printf("%s", dirs);
-	//printf("%s\n", foo);
-}*/
-
 void execPgm(Command *cmd) {
 
+	//User wants to exit the bash.
 	if(strcmp(cmd->pgm->pgmlist[0], "exit") == 0){
     	printf("Exiting bash..\n");
         exit(0);
     }
+    //Built-in function 'cd'.
     else if(strcmp(cmd->pgm->pgmlist[0], "cd") == 0){
         if(chdir(cmd->pgm->pgmlist[1]) < 0){
         	printf("ERROR: %s\n", strerror(errno));
@@ -46,7 +26,7 @@ void execPgm(Command *cmd) {
 	if( child_pid == 0 )
 	{
 		if(cmd->bakground) {
-		//Take care of the child when it terminates.
+		//Ignore interrupt signals for children in background.
 		signal(SIGINT, SIG_IGN);
 		}
 		//Replace stdin?
@@ -84,7 +64,7 @@ void execPgm(Command *cmd) {
 		}
 	} 
 	if(cmd->bakground){
-		signal(SIGCHLD, SIG_IGN);
+		//If child is run in background, do not wait for its termination.
 		return;
 	}
 	waitpid(child_pid, NULL, 0);
@@ -111,7 +91,6 @@ int execRecursive(Pgm *pgm, int pipe_in, int pipe_out) // out=-1 for first run
 				printf("ERROR: %s\n", strerror(errno));
 				exit(0);
 			}
-			// Implement error checking
 		} else {
 			wait(NULL);
 			return child_pid; // Parent will return; no more recursive calls
@@ -142,7 +121,6 @@ int execRecursive(Pgm *pgm, int pipe_in, int pipe_out) // out=-1 for first run
 				printf("ERROR: %s\n", strerror(errno));
 				exit(0);
 			}
-			// Implement error checking
 		} else {
 			// Close pipes in parent
 			close(pipes[PIPE_OUT]);
