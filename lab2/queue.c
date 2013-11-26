@@ -25,10 +25,12 @@ void enqueue(int val){
 int dequeue(int *extractedValue){
 	//TODO need locks
 
-	if(queue.head == queue.tail){
-		
-	}
+	if(queue.head->next == NULL){
 		return 0;
-	else
+	}
+	else{
+		*extractedValue = queue.head->next.value;
+		queue.head = queue.head->next;
 		return 1
+	}
 }
