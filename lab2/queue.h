@@ -9,7 +9,7 @@ typedef struct queue{
 	Node *tail;
 } Queue;
 
-Queue queue;
+Queue *queue;
 
 void initialize_queue(void);
 void enqueue(int val);
