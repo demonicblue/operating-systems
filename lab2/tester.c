@@ -95,8 +95,14 @@ int simpleTest()
 
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
+	int N = 2;
+
+	if(argv[1])
+	{
+		N = atoi(argv[1]);
+	}
 	/*printf("%s\n", "Running single thread test..");
 	if(testSingleThread(100))
 	{
@@ -107,6 +113,7 @@ int main(void)
 		printf("%s\n", "Single thread: Failed!");
 	}*/
 	//simpleTest();
+	//printf("%d\n", N);
 	initialize_queue();
 
 	for (int i = 0; i < 100; ++i)
@@ -114,7 +121,7 @@ int main(void)
 		enqueue(42);
 	}
 
-	testMultiThreaded(2);
+	testMultiThreaded(N);
 	
 	return 0;
 }
