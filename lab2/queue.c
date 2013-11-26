@@ -1,17 +1,17 @@
 #include "queue.h"
 
 void initialize_queue(void){
-	//Initialize queue
-	queue = malloc(sizeof(struct queue));
-	queue->head=dummy;
-	queue->tail=dummy;
 	//Initialize dummy node
 	Node *dummy;
 	dummy = malloc(sizeof(struct node));
 	dummy->value=0;
 	dummy->next=NULL;
+	//Initialize queue
+	queue = malloc(sizeof(struct queue));
+	queue->head=dummy;
+	queue->tail=dummy;
 	//Initialize mutex variable
-	mutex1 = PTHREAD_MUTEX_INITIALIZER;
+	mutex1 = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 }
 
 void enqueue(int val){
@@ -23,7 +23,7 @@ void enqueue(int val){
 
 	queue->tail->next = new_tail;
 	queue->tail = new_tail;
-	pthread_mutex_unlock(&mutex1)
+	pthread_mutex_unlock(&mutex1);
 }
 
 int dequeue(int *extractedValue){
