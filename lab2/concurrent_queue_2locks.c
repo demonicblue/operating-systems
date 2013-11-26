@@ -1,6 +1,6 @@
 #include "queue.h"
 
-void initialize_queue(void){
+void initialize_queue2(void){
 	//Initialize dummy node
 	Node *dummy;
 	dummy = malloc(sizeof(struct node));
@@ -15,7 +15,7 @@ void initialize_queue(void){
 	mutex2 = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 }
 
-void enqueue(int val){
+void enqueue2(int val){
 	pthread_mutex_lock(&mutex1);
 	Node *new_tail;
 	new_tail = malloc(sizeof(struct node));
@@ -27,7 +27,7 @@ void enqueue(int val){
 	pthread_mutex_unlock(&mutex1);
 }
 
-int dequeue(int *extractedValue){
+int dequeue2(int *extractedValue){
 	pthread_mutex_lock(&mutex2);
 	if(queue->head->next == NULL){
 		pthread_mutex_unlock(&mutex2);
