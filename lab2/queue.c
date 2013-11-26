@@ -1,6 +1,12 @@
 #include "queue.h"
 
+Queue *queue;
+pthread_mutex_t mutex1;
+
 void initialize_queue(void){
+
+	printf("Using one lock\n");
+
 	//Initialize dummy node
 	Node *dummy;
 	dummy = malloc(sizeof(struct node));

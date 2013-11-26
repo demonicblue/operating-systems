@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <pthread.h>
 typedef struct node{
 	int value;
@@ -9,9 +10,6 @@ typedef struct queue{
 	Node *head;
 	Node *tail;
 } Queue;
-
-Queue *queue;
-pthread_mutex_t mutex1;
 
 void initialize_queue(void);
 void enqueue(int val);
