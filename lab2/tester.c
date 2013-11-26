@@ -27,6 +27,7 @@ int testMultiThreaded(int N, int X)
 	gettimeofday(&now, NULL);
 	end = now.tv_usec;
 
+	iret[1]++; // To get rid of compiler warnings
 
 	printf("Total time: %d\n", end-start);
 
@@ -35,7 +36,7 @@ int testMultiThreaded(int N, int X)
 
 void *my_thread(void *ptr)
 {
-	int num = (int) ptr;
+	int num = *(int*)ptr;
 	int ret = 0;
 
 	for (int i = 0; i < num; ++i)
