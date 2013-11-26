@@ -12,6 +12,8 @@ int testMultiThreaded(int N, int X)
 	gettimeofday(&now, NULL);
 	start = now.tv_usec;
 
+	initialize_queue();
+
 	for (int i = 0; i < N; ++i)
 	{
 		iret[i] = pthread_create( &threads[i], NULL, my_thread, (void*) &num );
@@ -24,6 +26,7 @@ int testMultiThreaded(int N, int X)
 
 	gettimeofday(&now, NULL);
 	end = now.tv_usec;
+
 
 	printf("Total time: %d\n", end-start);
 
@@ -45,7 +48,7 @@ void *my_thread(void *ptr)
 		dequeue(&ret);
 		printf("%d\n", ret);
 	}
-	return (void*) &ret;
+	return 0;
 }
 
 int testSingleThread(int num)
