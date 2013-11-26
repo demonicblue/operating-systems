@@ -14,3 +14,7 @@ typedef struct queue{
 void initialize_queue(void);
 void enqueue(int val);
 int dequeue(int *extractedValue);
+
+void initialize_queue2(void);
+void enqueue2(int val);
+int dequeue2(int *extractedValue);
