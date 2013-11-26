@@ -6,7 +6,7 @@
 #include <pthread.h>
 
 
-int testMultiThreaded(int N, int X);
+int testMultiThreaded(int N);
 void *my_thread(void *ptr);
 int testSingleThread(int num);
 int simpleTest();
