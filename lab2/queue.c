@@ -1,4 +1,4 @@
-
+#include <queue.h>
 
 void initialize_queue(void){
 	//Initialize dummy node
