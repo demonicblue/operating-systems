@@ -6,7 +6,6 @@ void initialize_queue(void){
 	dummy.value=0;
 	dummy.next=NULL;
 	//Initialize queue
-	Queue queue;
 	queue.head=dummy;
 	queue.tail=dummy;
 

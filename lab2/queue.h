@@ -8,6 +8,8 @@ typedef struct queue{
 	Node *tail;
 } Queue;
 
+Queue queue;
+
 void inititalize_queue(void);
 void enqueue(int val);
 int dequeue(int *extractedValue);
