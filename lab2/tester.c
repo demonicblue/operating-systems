@@ -1,7 +1,52 @@
-#include "queue.h"
+#include "tester.h"
 
-#include <stdio.h>
 
+int testMultiThreaded(int N, int X)
+{
+	struct timeval now;
+	pthread_t threads[N];
+	int iret[N];
+	int num = X/N;
+	int start, end;
+
+	gettimeofday(&now, NULL);
+	start = now.tv_usec;
+
+	for (int i = 0; i < N; ++i)
+	{
+		iret[i] = pthread_create( &threads[i], NULL, my_thread, (void*) &num );
+	}
+
+	for (int i = 0; i < N; ++i)
+	{
+		pthread_join( threads[i], NULL );
+	}
+
+	gettimeofday(&now, NULL);
+	end = now.tv_usec;
+
+	printf("Total time: %d\n", end-start);
+
+	return 0;
+}
+
+void *my_thread(void *ptr)
+{
+	int num = (int) ptr;
+	int ret = 0;
+
+	for (int i = 0; i < num; ++i)
+	{
+		enqueue(i);
+	}
+
+	for (int i = 0; i < num; ++i)
+	{
+		dequeue(&ret);
+		printf("%d\n", ret);
+	}
+	return (void*) &ret;
+}
 
 int testSingleThread(int num)
 {
@@ -56,7 +101,8 @@ int main(void)
 	{
 		printf("%s\n", "Single thread: Failed!");
 	}*/
-	simpleTest();
+	//simpleTest();
+	testMultiThreaded(10, 100);
 	
 	return 0;
 }
