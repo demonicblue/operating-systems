@@ -19,9 +19,9 @@ void initialize_queue(void){
 }
 
 void enqueue(int val){
-	pthread_mutex_lock(&mutex1);
 	Node *new_tail;
 	new_tail = malloc(sizeof(struct node));
+	pthread_mutex_lock(&mutex1);
 	new_tail->value=val;
 	new_tail->next=NULL;
 
@@ -40,8 +40,8 @@ int dequeue(int *extractedValue){
 		*extractedValue = queue->head->next->value;
 		Node *temp = queue->head;
 		queue->head = queue->head->next;
-		free(temp);
 		pthread_mutex_unlock(&mutex1);
+		free(temp);
 		return 1;
 	}
 }
