@@ -47,7 +47,7 @@ int dequeue(int *extractedValue){
         Node *temp = queue->head;
         //Assign the new dummy node
         queue->head = queue->head->next;
-        pthread_mutex_unlock(&mutex2);
+        pthread_mutex_unlock(&mutex1);
         //Free the memory of the old dummy node.
         free(temp);
 		return 1;
