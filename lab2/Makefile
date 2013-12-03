@@ -1,6 +1,6 @@
 P=tester
-OBJECTS=queue.o concurrent_queue_2locks.o tester.o
-CFLAGS = -g -Wall -o3
+OBJECTS=concurrent_queue.o concurrent_queue_2locks.o tester.o
+CFLAGS = -g -o3
 LDLIBS= -lpthread
 CC=c99
 

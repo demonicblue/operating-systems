@@ -24,3 +24,6 @@
 *.app
 *.hex
 tester
+
+# OS files
+*.DS_Store
