@@ -38,15 +38,20 @@ void enqueue2(int val){
 
 int dequeue2(int *extractedValue){
 	pthread_mutex_lock(&mutex2);
+	//Is the queue empty+
 	if(queue->head->next == NULL){
 		pthread_mutex_unlock(&mutex2);
 		return 0;
 	}
 	else{
+		//Extract the value
 		*extractedValue = queue->head->next->value;
+		//Get a temporary pointer to the old dummy node.
 		Node *temp = queue->head;
+		//Assign the new dummy node
 		queue->head = queue->head->next;
 		pthread_mutex_unlock(&mutex2);
+		//Free the memory of the old dummy node.
 		free(temp);
 		return 1;
 	}
