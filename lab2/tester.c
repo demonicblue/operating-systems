@@ -30,26 +30,8 @@ int testMultiThreaded(int N)
 
 	iret[1]++; // To get rid of compiler warnings
 
-	printf("Total time: %d\n", end-start);
+	printf("Total time: %.3f\n", (end-start)/100.0);
 
-	return 0;
-}
-
-void *my_thread(void *ptr)
-{
-	int num = *(int*)ptr;
-	int ret = 0;
-
-	for (int i = 0; i < num; ++i)
-	{
-		enqueue(i);
-	}
-
-	for (int i = 0; i < num; ++i)
-	{
-		dequeue(&ret);
-		//printf("%d\n", ret);
-	}
 	return 0;
 }
 
@@ -80,8 +62,26 @@ int testMultiThreaded2(int N)
 
 	iret[1]++; // To get rid of compiler warnings
 
-	printf("Total time: %d\n", end-start);
+	printf("Total time: %.3f\n", (end-start)/100.0);
 
+	return 0;
+}
+
+void *my_thread(void *ptr)
+{
+	int num = *(int*)ptr;
+	int ret = 0;
+
+	for (int i = 0; i < num; ++i)
+	{
+		enqueue(i);
+	}
+
+	for (int i = 0; i < num; ++i)
+	{
+		dequeue(&ret);
+		//printf("%d\n", ret);
+	}
 	return 0;
 }
 
@@ -103,48 +103,6 @@ void *my_thread2(void *ptr)
 	return 0;
 }
 
-
-int testSingleThread(int num)
-{
-	int returned, success = 1;
-
-	initialize_queue();
-
-	for(int i = 0; i<num; i++)
-	{
-		enqueue(i);
-	}
-
-	for(int i = 0; i<num; i++)
-	{
-		dequeue(&returned);
-		if(returned != i)
-		{
-			success = 0;
-		}
-	}
-
-	return success;
-}
-
-int simpleTest()
-{
-	int ret = 55;
-
-	initialize_queue();
-
-	enqueue(42);
-	enqueue(43);
-
-	dequeue(&ret);
-	printf("Ret:%d\n", ret);
-
-	dequeue(&ret);
-	printf("Ret:%d\n", ret);
-
-	return 0;
-
-}
 
 int main(int argc, char **argv)
 {
@@ -174,7 +132,6 @@ int main(int argc, char **argv)
 	}
 
 	testMultiThreaded(N);
-	
 	printf("Using two locks\n");
 
 	initialize_queue2();
