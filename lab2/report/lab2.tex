@@ -4,13 +4,13 @@
 
 \documentclass[a4paper,11pt,twoside,fleqn]{article}
 
-\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+%\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
 \usepackage[english]{babel} % For swedish
 %\usepackage{amsmath,amsfonts,amsthm} % Math packages
 
 \usepackage[utf8]{inputenc} % Required for swedish characters
 \usepackage[T1]{fontenc}
-
+\usepackage{verbatim}
 \usepackage{graphicx}
 \graphicspath{{./Graphics/}} % Latex looks for graphics here when including
 
@@ -20,7 +20,7 @@
 \usepackage{booktabs}
 \usepackage{tabulary}
 
-\usepackage{siunitx} % For better units and numbers, best use: \SI{41}{\meter\per\second}
+%\usepackage{siunitx} % For better units and numbers, best use: \SI{41}{\meter\per\second}
 
 %\usepackage{indentfirst}
 
@@ -95,34 +95,47 @@
 %	PART 1
 %----------------------------------------------------------------------------------------
 
-\section*{Part 1}
+\section{One lock}
 
 %------------------------------------------------
 
-\subsection*{Deadlock}
+\subsection*{\textbf{Deadlock}}
 
 Question: is deadlock possible to occur? Answer: No.
+\\
+There are four conditions that needs to be met in order for deadlock to occur:
+\begin{itemize}
 
-There are four conditions that needs to be met in order for deadlock to occur.
-1. Mutual exclusion: only one process at a time can use a resource.
-True
+\item
+Mutual exclusion: only one process at a time can use a resource.
+\begin{itemize} \item True: Because the \verb+pthread_mutex_lock+ is only allowing one thread at a time to use the queue for enqueuing or dequeuing.
+\end{itemize}
 
-2. Hold and wait: a process holding some resource can request additional resources and wait for them if they are held by other processes.
-False: The enqueue and dequeue functions will not try to request additional resources inside the lock. Also there is only one resource to handle.
+\item Hold and wait: a process holding some resource can request additional resources and wait for them if they are held by other processes.
+\begin{itemize}
+\item False: The enqueue and dequeue functions will not try to request additional resources inside the lock. Also there is only one resource to handle.
+\end{itemize}
 
-3. No preemption: a resource can only be release by the process holding it. After that process has completed its task.
-True
+\item No preemption: a resource can only be release by the process holding it. After that process has completed its task.
+\begin{itemize}
+\item True: The \verb+pthread_mutex_unlock+ is used for this.
+\end{itemize} 
 
-4. Circular wait: there exists a circular chain of 2 or more blocked processes, each waiting for a resource held by the next process in the chain.
-True: But not in all cases. (4 processes, one resource) 
+\item Circular wait: there exists a circular chain of 2 or more blocked processes, each waiting for a resource held by the next process in the chain.
 
+\begin{itemize}
+\item True: But not in all cases. (4 processes, one resource) 
+\end{itemize} 
+\end{itemize}
+
+\textbf{Conclusion:} Since at least one of the conditions is broken, deadlock can not occur.
 \clearpage
 
 %----------------------------------------------------------------------------------------
 %	PART 2
 %----------------------------------------------------------------------------------------
 
-\section*{Part 2}
+\section{Two locks}
 
 %------------------------------------------------
 
@@ -130,23 +143,36 @@ True: But not in all cases. (4 processes, one resource)
 
 Compare against one lock:
 
-\subsection*{Deadlock}
+\subsection*{\textbf{Deadlock}}
 
 Question: is deadlock possible to occur? Answer: No.
+\\
+There are four conditions that needs to be met in order for deadlock to occur:
+\begin{itemize}
 
-There are four conditions that needs to be met in order for deadlock to occur.
-1. Mutual exclusion: only one process at a time can use a resource.
-True
+\item
+Mutual exclusion: only one process at a time can use a resource.
+\begin{itemize} \item True: Because the \verb+pthread_mutex_lock+ is only allowing one thread at a time to use the queue for enqueuing or dequeuing.
+\end{itemize}
 
-2. Hold and wait: a process holding some resource can request additional resources and wait for them if they are held by other processes.
-False: The enqueue and dequeue functions will not try to request additional resources inside the lock.
+\item Hold and wait: a process holding some resource can request additional resources and wait for them if they are held by other processes.
+\begin{itemize}
+\item False: The enqueue and dequeue functions will not try to request additional resources inside the lock. Also there is only one resource to handle.
+\end{itemize}
 
-3. No preemption: a resource can only be release by the process holding it. After that process has completed its task.
-True
+\item No preemption: a resource can only be release by the process holding it. After that process has completed its task.
+\begin{itemize}
+\item True: The \verb+pthread_mutex_unlock+ is used for this.
+\end{itemize} 
 
-4. Circular wait: there exists a circular chain of 2 or more blocked processes, each waiting for a resource held by the next process in the chain.
-True
+\item Circular wait: there exists a circular chain of 2 or more blocked processes, each waiting for a resource held by the next process in the chain.
 
+\begin{itemize}
+\item True: But not in all cases. (4 processes, one resource) 
+\end{itemize} 
+\end{itemize}
+
+\textbf{Conclusion:} Since at least one of the conditions is broken, deadlock can not occur.
 
 %----------------------------------------------------------------------------------------
 
