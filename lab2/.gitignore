@@ -3,6 +3,10 @@
 *.ko
 *.obj
 *.elf
+*.aux
+*.log
+*.pdf
+*.synctex.gz
 
 # Libraries
 *.lib
