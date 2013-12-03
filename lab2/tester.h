@@ -1,4 +1,4 @@
-#include "queue.h"
+#include "concurrent_queue.h"
 
 #include <stdlib.h>
 #include <stdio.h>
