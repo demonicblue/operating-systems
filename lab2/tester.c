@@ -81,17 +81,6 @@ void *my_thread(void *ptr)
 			dequeue(&ret);
 		}
 	}
-	/*
-	for (int i = 0; i < num; ++i)
-	{
-		enqueue(i);
-	}
-
-	for (int i = 0; i < num; ++i)
-	{
-		dequeue(&ret);
-		//printf("%d\n", ret);
-	}*/
 	return 0;
 }
 
@@ -109,18 +98,6 @@ void *my_thread2(void *ptr)
 			dequeue2(&ret);
 		}
 	}
-
-	/*
-	for (int i = 0; i < num; ++i)
-	{
-		enqueue2(i);
-	}
-
-	for (int i = 0; i < num; ++i)
-	{
-		dequeue2(&ret);
-		//printf("%d\n", ret);
-	}*/
 	return 0;
 }
 
@@ -135,18 +112,8 @@ int main(int argc, char **argv)
 	{
 		N = atoi(argv[1]);
 	}
-	/*printf("%s\n", "Running single thread test..");
-	if(testSingleThread(100))
-	{
-		printf("%s\n", "Single thread: Success!");
-	}
-	else
-	{
-		printf("%s\n", "Single thread: Failed!");
-	}*/
-	//simpleTest();
-	//printf("%d\n", N);
 	printf("Using one lock\n");
+
 	initialize_queue();
 
 	for (int i = 0; i < 100; ++i)
@@ -155,6 +122,7 @@ int main(int argc, char **argv)
 	}
 
 	testMultiThreaded(N);
+	
 	printf("Using two locks\n");
 
 	initialize_queue2();
