@@ -71,7 +71,17 @@ void *my_thread(void *ptr)
 {
 	int num = *(int*)ptr;
 	int ret = 0;
+	int tot = 2*num;
 
+	for(int i = 0; i< tot; i++)
+	{
+		if( (rand() % 2 + 1) > 1 ) {
+			enqueue(i);
+		} else {
+			dequeue(&ret);
+		}
+	}
+	/*
 	for (int i = 0; i < num; ++i)
 	{
 		enqueue(i);
@@ -81,7 +91,7 @@ void *my_thread(void *ptr)
 	{
 		dequeue(&ret);
 		//printf("%d\n", ret);
-	}
+	}*/
 	return 0;
 }
 
@@ -89,7 +99,18 @@ void *my_thread2(void *ptr)
 {
 	int num = *(int*)ptr;
 	int ret = 0;
+	int tot = 2*num;
 
+	for(int i = 0; i< tot; i++)
+	{
+		if( (rand() % 2 + 1) > 1 ) {
+			enqueue2(i);
+		} else {
+			dequeue2(&ret);
+		}
+	}
+
+	/*
 	for (int i = 0; i < num; ++i)
 	{
 		enqueue2(i);
@@ -99,7 +120,7 @@ void *my_thread2(void *ptr)
 	{
 		dequeue2(&ret);
 		//printf("%d\n", ret);
-	}
+	}*/
 	return 0;
 }
 
@@ -107,6 +128,8 @@ void *my_thread2(void *ptr)
 int main(int argc, char **argv)
 {
 	int N = 2;
+
+	srand (time(NULL));
 
 	if(argv[1])
 	{
