@@ -30,7 +30,7 @@ int testMultiThreaded(int N)
 
 	iret[1]++; // To get rid of compiler warnings
 
-	printf("Total time: %.3f\n", (end-start)/100.0);
+	printf("Total time: %.3f ms\n", (end-start)/100.0);
 
 	return 0;
 }
@@ -62,7 +62,7 @@ int testMultiThreaded2(int N)
 
 	iret[1]++; // To get rid of compiler warnings
 
-	printf("Total time: %.3f\n", (end-start)/100.0);
+	printf("Total time: %.3f ms\n", (end-start)/100.0);
 
 	return 0;
 }
