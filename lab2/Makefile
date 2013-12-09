@@ -1,11 +1,19 @@
-P=tester
-OBJECTS=concurrent_queue.o concurrent_queue_2locks.o tester.o
-CFLAGS = -g -o3
-LDLIBS= -lpthread
-CC=c99
+CC = gcc
+CFLAGS  = -g -Wall -lpthread
+CLOCKS  = -D LOCKS
+RM = rm
 
-$(P): $(OBJECTS)
+# the build target executable:
+TARGET = tester
+OUTPUT = tester1lock
+OUTPUT2 = tester2lock
+
+all: $(TARGET)
+
+$(TARGET): $(TARGET).c
+	$(CC) $(CFLAGS) -o $(OUTPUT) $(TARGET).c
+	$(CC) $(CFLAGS) $(CLOCKS) -o $(OUTPUT2) $(TARGET).c
 
 clean:
-	-rm -f $(OBJECTS) $(P)
-	
+	rm -r -f $(OUTPUT)* $(OUTPUT2)*  
+

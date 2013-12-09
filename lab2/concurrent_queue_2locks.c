@@ -5,7 +5,7 @@ pthread_mutex_t mutex1;
 pthread_mutex_t mutex2;
 
 
-void initialize_queue2(void){
+void initialize_queue(void){
 	//Initialize dummy node
 	Node *dummy;
 	dummy = malloc(sizeof(struct node));
@@ -20,7 +20,7 @@ void initialize_queue2(void){
 	mutex2 = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 }
 
-void enqueue2(int val){
+void enqueue(int val){
 	//Create the new node and allocate memory for it.
 	Node *new_tail;
 	new_tail = malloc(sizeof(struct node));
@@ -36,7 +36,7 @@ void enqueue2(int val){
 	pthread_mutex_unlock(&mutex1);
 }
 
-int dequeue2(int *extractedValue){
+int dequeue(int *extractedValue){
 	pthread_mutex_lock(&mutex2);
 	//Is the queue empty+
 	if(queue->head->next == NULL){
