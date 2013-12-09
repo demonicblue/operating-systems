@@ -147,32 +147,7 @@ Compare against one lock:
 
 Question: is deadlock possible to occur? Answer: No.
 \\
-There are four conditions that needs to be met in order for deadlock to occur:
-\begin{itemize}
-
-\item
-Mutual exclusion: only one process at a time can use a resource.
-\begin{itemize} \item True: Because the \verb+pthread_mutex_lock+ is only allowing one thread at a time to use the queue for enqueuing or dequeuing.
-\end{itemize}
-
-\item Hold and wait: a process holding some resource can request additional resources and wait for them if they are held by other processes.
-\begin{itemize}
-\item False: The enqueue and dequeue functions will not try to request additional resources inside the lock. Also there is only one resource to handle.
-\end{itemize}
-
-\item No preemption: a resource can only be release by the process holding it. After that process has completed its task.
-\begin{itemize}
-\item True: The \verb+pthread_mutex_unlock+ is used for this.
-\end{itemize} 
-
-\item Circular wait: there exists a circular chain of 2 or more blocked processes, each waiting for a resource held by the next process in the chain.
-
-\begin{itemize}
-\item True: But not in all cases. (4 processes, one resource) 
-\end{itemize} 
-\end{itemize}
-
-\textbf{Conclusion:} Since at least one of the conditions is broken, deadlock can not occur.
+The same conclusion as from part 1 can be drawn again. The difference with the two locks does not introduce any complications. This is because the two locks are independent of each other. It might have been a problem if once one lock had been acquired to start and trying to acquire the other lock as well. However since the implementation is not done in this way, the problem does not arises.
 
 %----------------------------------------------------------------------------------------
 
