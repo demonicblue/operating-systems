@@ -11,77 +11,45 @@
 
 #define X 10000
 
-
 int testMultiThreaded(int N);
-int testMultiThreaded2(int N);
 void *my_thread(void *ptr);
-void *my_thread2(void *ptr);
 
-
+/*
+* Sets up and spawns N threads, then wait for them to finnish and time it.
+*/
 int testMultiThreaded(int N)
 {
-	struct timeval now;
+	struct timeval now; /* Helper struct for getting current time */
 	pthread_t threads[N];
-	int iret[N];
-	int num = X/N;
+	int num = X/N; /* Divide operations per thread */
 	int start, end;
 
 	gettimeofday(&now, NULL);
 	start = now.tv_usec;
-	
 
 	for (int i = 0; i < N; ++i)
 	{
-		iret[i] = pthread_create( &threads[i], NULL, my_thread, (void*) &num );
+		/* Create N threads */
+		pthread_create( &threads[i], NULL, my_thread, (void*) &num );
 	}
 
 	for (int i = 0; i < N; ++i)
 	{
+		/* Wait for N threads to finnish */
 		pthread_join( threads[i], NULL );
 	}
 
 	gettimeofday(&now, NULL);
 	end = now.tv_usec;
-
-	iret[1]++; // To get rid of compiler warnings
 
 	printf("Total time: %.3f ms\n", (end-start)/100.0);
 
 	return 0;
 }
 
-/*int testMultiThreaded2(int N)
-{
-	struct timeval now;
-	pthread_t threads[N];
-	int iret[N];
-	int num = X/N;
-	int start, end;
-
-	gettimeofday(&now, NULL);
-	start = now.tv_usec;
-	
-
-	for (int i = 0; i < N; ++i)
-	{
-		iret[i] = pthread_create( &threads[i], NULL, my_thread2, (void*) &num );
-	}
-
-	for (int i = 0; i < N; ++i)
-	{
-		pthread_join( threads[i], NULL );
-	}
-
-	gettimeofday(&now, NULL);
-	end = now.tv_usec;
-
-	iret[1]++; // To get rid of compiler warnings
-
-	printf("Total time: %.3f ms\n", (end-start)/100.0);
-
-	return 0;
-}*/
-
+/*
+* Pthreads function. Randomly enques and deques specified number of elements.
+*/
 void *my_thread(void *ptr)
 {
 	int num = *(int*)ptr;
@@ -99,38 +67,28 @@ void *my_thread(void *ptr)
 	return 0;
 }
 
-/*void *my_thread2(void *ptr)
-{
-	int num = *(int*)ptr;
-	int ret = 0;
-	int tot = 2*num;
-
-	for(int i = 0; i< tot; i++)
-	{
-		if( (rand() % 2 + 1) > 1 ) {
-			enqueue2(i);
-		} else {
-			dequeue2(&ret);
-		}
-	}
-	return 0;
-}*/
-
-
+/*
+* The program takes one parameter which decides how many threads
+* will be spawned. If no parameter is provided; it defaults to 2.
+*
+* Example (to spawn 4 threads):
+*   ./tester1lock 4
+*/
 int main(int argc, char **argv)
 {
 	int N = 2;
 
 	srand (time(NULL));
 
+	/* Interprett number of threads to use */
 	if(argv[1])
 	{
 		N = atoi(argv[1]);
 	}
-	//printf("Using one lock\n");
 
 	initialize_queue();
 
+	/* Enqueu some elements as a starting point */
 	for (int i = 0; i < 100; ++i)
 	{
 		enqueue(42);
@@ -138,16 +96,5 @@ int main(int argc, char **argv)
 
 	testMultiThreaded(N);
 	
-	/*printf("Using two locks\n");
-
-	initialize_queue2();
-
-	for (int i = 0; i < 100; ++i)
-	{
-		enqueue2(42);
-	}
-
-	testMultiThreaded2(N);*/
-
 	return 0;
 }
