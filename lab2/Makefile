@@ -1,4 +1,4 @@
-CC = c99
+CC = gcc -std=c99
 CFLAGS  = -g -Wall -pthread
 CLOCKS  = -D LOCKS
 RM = rm
