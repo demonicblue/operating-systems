@@ -154,7 +154,7 @@ Mutual exclusion: only one process at a time can use a resource.
 
 \item Circular wait: there exists a circular chain of 2 or more blocked processes, each waiting for a resource held by the next process in the chain.
 \begin{itemize}
-\item False: Since the resources in our programs are independent of each other, no process will hold a resource whilst waiting for another. The resources worked with will be released when the work is done, and the work does not contain acquiring any other resource than the one already acquired.
+\item False: Since the resources in our programs are independent of each other, no process will hold a resource whilst waiting for another. The resources used by the process will be released when the work is done, and the work does not contain acquiring any other resource than the one already acquired.
 \end{itemize}
 
 \end{itemize}
