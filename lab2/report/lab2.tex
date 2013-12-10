@@ -100,7 +100,9 @@ Measurements done with one lock and proofing why the solution does not yield any
 \subsection{Measurements}
 As shown in Figure 1 there is a difference between 2 and 4 threads. The measurements are done over 10 executions and taking the average of the execution time. The results shows that it takes more time for the program to finish with more threads. These results are intriguing as one would think that an increased amount of threads would yield in less execution time. This is reasonable because more work should be done in less time. This is however not the case and the reason is because of collisions between the different threads as they try to access the critical section at the same time. This leaves threads waiting for the mutual exclusion variable to become available and not doing anything in the meantime. 
 
-This results in an increase in execution time because the program is spending more time waiting than it is actually executing.
+Another thing delaying the execution is the system taking care of other processes as well. In an ideal execution, our own process would be the only one running and this is not the case. The program is also not considering which thread started to wait first for the token (lock) if the token is already in use. This results in some threads end up waiting very long until they actually get access to the critical section which prolongs execution time.
+
+This is the reason for the increase in execution time because the program is spending more time waiting than it is actually executing.
 
 \begin{figure}[h]
 	\caption{Measurements for one lock}
@@ -146,7 +148,7 @@ Mutual exclusion: only one process at a time can use a resource.
 %----------------------------------------------------------------------------------------
 
 \section{Two locks}
-
+Measurements done with two locks and proofing why the solution still does not yield any deadlocks.
 %------------------------------------------------
 
 \subsection{Measurements}
