@@ -1,5 +1,5 @@
-CC = gcc
-CFLAGS  = -g -Wall -lpthread
+CC = c99
+CFLAGS  = -g -Wall -pthread
 CLOCKS  = -D LOCKS
 RM = rm
 

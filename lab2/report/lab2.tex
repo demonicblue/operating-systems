@@ -90,16 +90,25 @@
 \begin{document}
 
 \maketitle % Print the title
-
+\clearpage
 %----------------------------------------------------------------------------------------
 %	PART 1
 %----------------------------------------------------------------------------------------
 
 \section{One lock}
+Measurements done with one lock and proofing why the solution does not yield any deadlocks.
+\subsection{Measurements}
+As shown in Figure 1 there is a difference between 2 and 4 threads. The measurements are done over 10 executions and taking the average of the execution time. The results shows that it takes more time for the program to finish with more threads. These results are intriguing as one would think that an increased amount of threads would yield in less execution time. This is reasonable because more work should be done in less time. This is however not the case and the reason is because of collisions between the different threads as they try to access the critical section at the same time. This leaves threads waiting for the mutual exclusion variable to become available and not doing anything in the meantime. 
 
-%------------------------------------------------
+This results in an increase in execution time because the program is spending more time waiting than it is actually executing.
 
-\subsection*{\textbf{Deadlock}}
+\begin{figure}[h]
+	\caption{Measurements for one lock}
+	\centering
+		\includegraphics[scale=0.5]{measurements-for-one-lock}
+\end{figure}
+
+\subsection{Deadlock}
 
 Question: is deadlock possible to occur? Answer: No.
 \\
@@ -129,6 +138,7 @@ Mutual exclusion: only one process at a time can use a resource.
 \end{itemize}
 
 \textbf{Conclusion:} Since at least one of the conditions is broken, deadlock can not occur.
+
 \clearpage
 
 %----------------------------------------------------------------------------------------
