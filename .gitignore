@@ -17,3 +17,6 @@
 *.out
 *.app
 lsh
+
+# OS
+.DS_Store

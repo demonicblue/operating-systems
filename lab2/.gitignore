@@ -26,4 +26,9 @@
 tester
 
 # OS files
-*.DS_Store
+.DS_Store
+
+# Binaries
+tester1lock
+tester2lock
+
