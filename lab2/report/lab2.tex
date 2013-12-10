@@ -105,7 +105,7 @@ This results in an increase in execution time because the program is spending mo
 \begin{figure}[h]
 	\caption{Measurements for one lock}
 	\centering
-		\includegraphics[scale=0.5]{measurements-for-one-lock}
+		\includegraphics{measurements-for-one-lock}
 \end{figure}
 
 \subsection{Deadlock}
@@ -149,15 +149,21 @@ Mutual exclusion: only one process at a time can use a resource.
 
 %------------------------------------------------
 
-\subsection*{Blah}
+\subsection{Measurements}
 
-Compare against one lock:
+As the results display in Figure 2, there was an improvement for the average execution time using two locks. The reason is because there are not as many collisions anymore. The threads are not always contesting for the same lock as they were before since there is a second lock. The two locks are also independent of each other so the threads can dequeue and enqueue concurrently without any troubles. In other words, instead of having just 1 thread executing in one lock we can now have two threads executing concurrently by each thread executing in its own critical section.
 
-\subsection*{\textbf{Deadlock}}
+\begin{figure}[h]
+	\caption{Measurements for one lock}
+	\centering
+		\includegraphics{measurements-for-two-locks}
+\end{figure}
+
+\subsection{Deadlock}
 
 Question: is deadlock possible to occur? Answer: No.
 \\
-The same conclusion as from part 1 can be drawn again. The difference with the two locks does not introduce any complications. This is because the two locks are independent of each other. It might have been a problem if once one lock had been acquired to start and trying to acquire the other lock as well. However since the implementation is not done in this way, the problem does not arises.
+The same conclusion drawn from using one lock can be drawn again. The difference with the two locks does not introduce any new complications. This is because the two locks are independent of each other. It could have been a problem if once one lock had been acquired to try and acquire the other lock as well. However since the implementation is not done in this way, the problem does not arises.
 
 %----------------------------------------------------------------------------------------
 
