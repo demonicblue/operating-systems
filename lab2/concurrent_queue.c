@@ -38,7 +38,7 @@ int dequeue(int *extractedValue){
 	pthread_mutex_lock(&mutex1);
 	if(queue->head->next == NULL){
 		pthread_mutex_unlock(&mutex1);
-		return 0;
+		return 1;
 	}
 	else{
         //Extract the value
@@ -50,6 +50,6 @@ int dequeue(int *extractedValue){
         pthread_mutex_unlock(&mutex1);
         //Free the memory of the old dummy node.
         free(temp);
-		return 1;
+		return 0;
 	}
 }
