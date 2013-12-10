@@ -20,7 +20,7 @@
 \usepackage{booktabs}
 \usepackage{tabulary}
 
-%\usepackage{siunitx} % For better units and numbers, best use: \SI{41}{\meter\per\second}
+\usepackage{siunitx} % For better units and numbers, best use: \SI{41}{\meter\per\second}
 
 %\usepackage{indentfirst}
 
@@ -104,11 +104,29 @@ Another thing delaying the execution is the system taking care of other processe
 
 This is the reason for the increase in execution time because the program is spending more time waiting than it is actually executing.
 
-\begin{figure}[h]
-	\caption{Measurements for one lock}
-	\centering
-		\includegraphics{measurements-for-one-lock}
-\end{figure}
+\begin {table}[H]
+\caption {Measurements for one lock}\label{tab:title} 
+\begin{center}
+\begin{tabulary}{0.7\linewidth}{sSS}
+\toprule
+        & \textnormal{One-lock (2 threads)}$[\si{\milli\second}]$ & \textnormal{One-lock (4 threads)}$[\si{\milli\second}]$ \\
+\midrule
+        & 56,89                & 163,29               \\
+        & 58,14                & 142,33               \\
+        & 141,17               & 117,92               \\
+        & 56,78                & 81,12                \\
+        & 99,03                & 102,67               \\
+        & 170,22               & 146,45               \\
+        & 123,22               & 98,71                \\
+        & 124,49               & 96,47                \\
+        & 74,85                & 151,64               \\
+        & 155,68               & 170,47               \\
+\midrule
+Average: & 106,047              & 127,107 \\            
+\bottomrule
+\end{tabulary}
+\end{center}
+\end {table}
 
 \subsection{Deadlock}
 
@@ -155,11 +173,30 @@ Measurements done with two locks and proofing why the solution still does not yi
 
 As the results display in Figure 2, there was an improvement for the average execution time using two locks. The reason is because there are not as many collisions anymore. The threads are not always contesting for the same lock as they were before since there is a second lock. The two locks are also independent of each other so the threads can dequeue and enqueue concurrently without any troubles. In other words, instead of having just 1 thread executing in one lock we can now have two threads executing concurrently by each thread executing in its own critical section.
 
-\begin{figure}[h]
-	\caption{Measurements for one lock}
-	\centering
-		\includegraphics{measurements-for-two-locks}
-\end{figure}
+\begin {table}[H]
+\caption {Measurements for one lock}\label{tab:title} 
+\begin{center}
+\begin{tabulary}{0.7\linewidth}{sSS}
+\toprule
+        & \textnormal{Two-lock (2 threads)}$[\si{\milli\second}]$ & \textnormal{Two-lock (4 threads)}$[\si{\milli\second}]$ \\
+\midrule
+%                      & Two locks (2 threads) & Two locks (4 threads)        \\
+                      & 32,22                 & 48,25  \\
+                      & 16,32                 & 35,07  \\
+                      & 93,45                 & 79,74  \\
+                      & 128,46                & 45,15  \\
+                      & 54,3                  & 49,63  \\
+                      & 65,46                 & 16,4   \\
+                      & 149,18                & 73     \\
+                      & 104,2                 & 128,8  \\
+                      & 55,14                 & 48,77  \\
+                      & 54,1                  & 49,1   \\
+\midrule
+Average:        & 75,283                & 57,391 \\
+\bottomrule
+\end{tabulary}
+\end{center}
+\end {table}
 
 \subsection{Deadlock}
 
